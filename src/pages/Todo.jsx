@@ -84,6 +84,12 @@ const Todo = () => {
             <div className="text-center">No Todo Items found</div>
           )}
         </div>
+        <button
+          onClick={() => dispatch({ type: "deleteAll" })}
+          className="flex justify-center items-center w-full bg-green-600 cursor-pointer text-white font-semibold p-2 rounded-2xl"
+        >
+          Delete All
+        </button>
       </div>
     </div>
   );

@@ -30,10 +30,13 @@ const todoReducer = (state, action) => {
         }),
       };
     }
-    case "update": {
-      return state;
-    }
     case "deleteAll": {
+      return {
+        todoItems: [],
+      };
+    }
+
+    case "update": {
       return state;
     }
     default: {
