@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { CreateTodoContext } from "../contextApi/TodoContext";
 import { v4 as uuidv4 } from "uuid";
+import { ToastContainer } from "react-toastify";
 
 const Todo = () => {
   const [title, setTitle] = useState("");
@@ -53,6 +54,7 @@ const Todo = () => {
           </button>{" "}
         </div>
         <div className="space-y-4">
+          <ToastContainer />
           {state.todoItems.length > 0 ? (
             <>
               {state.todoItems.map((item) => (

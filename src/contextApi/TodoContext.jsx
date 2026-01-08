@@ -1,9 +1,15 @@
-import { createContext, useReducer } from "react";
+import {createContext, useEffect, useReducer } from "react";
+import { Bounce, toast } from "react-toastify";
 
 export const CreateTodoContext = createContext();
 
+const getTodo = () => {
+  let todos = localStorage.getItem("todoItems");
+  return todos ? JSON.parse(todos) : [];
+};
+
 const initialState = {
-  todoItems: [],
+  todoItems: getTodo(),
 };
 
 const todoReducer = (state, action) => {
@@ -18,6 +24,18 @@ const todoReducer = (state, action) => {
       } else {
         let newTodoItem = [...state.todoItems, action.payload];
 
+        toast.success("Todo is added!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+
         return {
           todoItems: newTodoItem,
         };
@@ -25,9 +43,7 @@ const todoReducer = (state, action) => {
     }
     case "delete": {
       return {
-        todoItems: state.todoItems.filter((todo) => {
-          return todo.id !== action.payload;
-        }),
+        todoItems: state.todoItems.filter((item) => item.id !== action.payload),
       };
     }
     case "deleteAll": {
@@ -46,6 +62,10 @@ const todoReducer = (state, action) => {
 };
 export const TodoContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(todoReducer, initialState);
+
+  useEffect(() => {
+    localStorage.setItem("todoItems", JSON.stringify(state.todoItems));
+  });
 
   return (
     <CreateTodoContext.Provider value={{ state, dispatch }}>
