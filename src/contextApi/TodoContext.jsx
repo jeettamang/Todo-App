@@ -1,4 +1,4 @@
-import {createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import { Bounce, toast } from "react-toastify";
 
 export const CreateTodoContext = createContext();
@@ -51,9 +51,15 @@ const todoReducer = (state, action) => {
         todoItems: [],
       };
     }
-
     case "update": {
-      return state;
+      let updatedTodo = state.todoItems.map((item) => {
+        return item.id === action.payload.id
+          ? { ...item, title: action.payload.title }
+          : item;
+      });
+      return {
+        todoItems: updatedTodo,
+      };
     }
     default: {
       return state;

@@ -2,10 +2,12 @@ import React, { useContext, useState } from "react";
 import { CreateTodoContext } from "../contextApi/TodoContext";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Todo = () => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
-  const [titleError, setTitleError] = useState("");
+  const [titleError ,setTitleError] = useState("");
   const { state, dispatch } = useContext(CreateTodoContext);
 
   const addTodo = () => {
@@ -64,15 +66,16 @@ const Todo = () => {
                 >
                   <span className="text-gray-800">{item.title}</span>
                   <div className="flex justify-center gap-2">
-                    <button className="bg-green-500 rounded-lg w-20 p-1 text-white cursor-pointer">
+                    <button
+                      onClick={() => navigate("/edittodo", {state:item})}
+                      className="bg-green-500 rounded-lg w-20 p-1 text-white cursor-pointer"
+                    >
                       Edit
                     </button>
                     <button
-                      onClick={() =>
-                        dispatch({
-                          type: "delete",
-                          payload: item.id,
-                        })
+                      onClick={() =>{
+                        dispatch({type:"delete", payload:{id:item.id}})
+                      }
                       }
                       className="bg-red-500 rounded-lg w-20 p-1 text-white cursor-pointer"
                     >
